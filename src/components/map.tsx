@@ -1,5 +1,3 @@
-"use client";
-
 import Map, {
   GeolocateControl,
   Layer,
@@ -13,26 +11,21 @@ import { useMemo, useState } from "react";
 
 import { lakesv3 } from "@/data/lakesv3";
 
-import { MapPinIcon, Sheet } from "lucide-react";
-
 import { qualityLatestDedupe } from "@/data/quality-latest-deduped";
-import { findPointsNearPolygon } from "@/utils/findPointsNearPoly";
-import { bathingV2 } from "@/data/bathingv2";
-import { bathingV2Centroids } from "@/data/bathingV2Centroids";
+import { findPointsNearPolygon, Polygon } from "@/utils/findPointsNearPoly";
 import { lakesV3Centeroids } from "@/data/lakesv3Centroids";
 import Image from "next/image";
-import MapMarkerImage from "@/images/marker.png";
 import MapFlaskImage from "@/images/flask.png";
 import MapSwimImage from "@/images/swim.png";
 
-const lakesLayerStyle: LayerProps = {
-  id: "lakesData",
-  type: "fill",
-  paint: {
-    "fill-color": "red",
-    "fill-opacity": 0.3,
-  },
-};
+// const lakesLayerStyle: LayerProps = {
+//   id: "lakesData",
+//   type: "fill",
+//   paint: {
+//     "fill-color": "red",
+//     "fill-opacity": 0.3,
+//   },
+// };
 const lakesOutlineLayerStyle: LayerProps = {
   id: "lakesDataOutline",
   type: "line",
@@ -41,23 +34,23 @@ const lakesOutlineLayerStyle: LayerProps = {
     "line-width": 4,
   },
 };
-const bathingLayerStyle: LayerProps = {
-  id: "bathingData",
-  type: "fill",
-  paint: {
-    "fill-color": "green",
-    "fill-opacity": 0.6,
-  },
-};
+// const bathingLayerStyle: LayerProps = {
+//   id: "bathingData",
+//   type: "fill",
+//   paint: {
+//     "fill-color": "green",
+//     "fill-opacity": 0.6,
+//   },
+// };
 
-const bathingOutlineLayerStyle: LayerProps = {
-  id: "bathingDataOutline",
-  type: "line",
-  paint: {
-    "line-color": "yellow",
-    "line-width": 4,
-  },
-};
+// const bathingOutlineLayerStyle: LayerProps = {
+//   id: "bathingDataOutline",
+//   type: "line",
+//   paint: {
+//     "line-color": "yellow",
+//     "line-width": 4,
+//   },
+// };
 
 export default function MapComponent({
   onMarkerClick,
@@ -69,9 +62,13 @@ export default function MapComponent({
   const pointsNear = useMemo(
     () =>
       lakesv3.features.flatMap((lakeFeature) =>
-        findPointsNearPolygon(lakeFeature, qualityLatestDedupe.features, 1500)
+        findPointsNearPolygon(
+          lakeFeature as Polygon,
+          qualityLatestDedupe.features,
+          1500
+        )
       ),
-    [lakesv3, qualityLatestDedupe]
+    []
   );
 
   return (

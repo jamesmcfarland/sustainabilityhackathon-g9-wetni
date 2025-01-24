@@ -5,6 +5,7 @@ type Feature = {
   properties: {
     Site_Code: string;
     Date: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [key: string]: any;
   };
   geometry: {

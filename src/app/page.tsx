@@ -3,15 +3,7 @@ import MapComponent from "@/components/map";
 import Image from "next/image";
 
 import qubLogo from "@/images/qub-white.png";
-import { MapPinIcon } from "lucide-react";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+
 import {
   Drawer,
   DrawerClose,
@@ -20,10 +12,8 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
-  DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
-import { useRouter, useSearchParams } from "next/navigation";
 import { useMemo, useState } from "react";
 import { lakesV3Centeroids } from "@/data/lakesv3Centroids";
 import { findPointsNearPolygon, Polygon } from "@/utils/findPointsNearPoly";
@@ -33,39 +23,10 @@ import {
   TableBody,
   TableCaption,
   TableCell,
-  TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
 import { lakesv3 } from "@/data/lakesv3";
-
-const x = {
-  type: "Feature",
-  properties: {
-    OBJECTID: 324,
-    name: "Rowallane House Pond",
-    lake_code: "Lake_0315",
-    squ_metre: 1857.755,
-    area_ha: 0.186,
-    centre_x: 340648,
-    centre_y: 357664,
-    ehro_2007: 0,
-    county: "Down",
-    border_m: 212.75,
-    contour_m: 100,
-    name_12: "Quoile",
-    ms_cd: "GBNI1NE050504064\r\n",
-    town: "SAINTFIELD",
-    distance: 1443,
-    SHAPE__Length: null,
-    SHAPE__Area: null,
-    GlobalID: "b24e8e43-aa23-441e-a894-000c20c782d6",
-  },
-  geometry: {
-    type: "Point",
-    coordinates: [-5.832460340272608, 54.44802248194129],
-  },
-};
 
 export default function Home() {
   // get the ID from the search params
@@ -142,7 +103,7 @@ export default function Home() {
                   <TableRow key={`pN-${i}`}>
                     <TableCell className="font-medium">
                       {feature.properties.Station_Name.toLowerCase()
-                        .replace(/\b\w/g, (char) => char.toUpperCase())
+                        .replace(/\b\w/g, (char: string) => char.toUpperCase())
                         .replaceAll("At", "@")}
                     </TableCell>
                     <TableCell>

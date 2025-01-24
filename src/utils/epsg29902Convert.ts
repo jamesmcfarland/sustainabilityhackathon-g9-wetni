@@ -1,5 +1,4 @@
 import proj4 from "proj4";
-
 proj4.defs(
   "EPSG:29902",
   "+proj=tmerc +lat_0=53.5 +lon_0=-8 +k=1.000035 +x_0=200000 +y_0=250000 +ellps=airy +datum=ire65 +units=m +no_defs"
@@ -8,11 +7,8 @@ proj4.defs(
 const from = "EPSG:29902";
 const to = "EPSG:4326";
 
-function convertCoordinates(
-  coordinates: number[][],
-  index: number
-): number[][] {
-  return coordinates.map((coord, index2) => {
+function convertCoordinates(coordinates: number[][]): number[][] {
+  return coordinates.map((coord) => {
     //round to 1dp
     const roundedCoord = coord.map((num) => Math.round(num));
     // check all numbers in coord are finite numbers
@@ -26,16 +22,15 @@ function convertCoordinates(
   });
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function epsg29902Convert(geojson: any) {
   const features = [];
-  let index = 0;
 
   for (const feature of geojson.features) {
     const convertedCoordinates = convertCoordinates(
-      feature.geometry.coordinates[0],
-      index
+      feature.geometry.coordinates[0]
     );
-    const validCoordinates = convertedCoordinates.filter(([lat, lng], i) => {
+    const validCoordinates = convertedCoordinates.filter(([lat, lng]) => {
       const isValid = lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180;
 
       if (!isValid) {
@@ -53,7 +48,6 @@ export function epsg29902Convert(geojson: any) {
         },
       });
     }
-    index++;
   }
 
   return {
