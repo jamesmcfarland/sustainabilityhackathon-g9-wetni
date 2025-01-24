@@ -1,0 +1,68 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": 134,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-6.08422982509001, 54.7296441213543]
+      },
+      "properties": {
+        "OBJECTID": 134,
+        "monitoring": "F10236",
+        "monitori_1": "FOUR MILE BURN AT FIFTY ACRES",
+        "river_wate": "GBNI1NB030305128",
+        "catchment": "Six Mile Water",
+        "x": 323466,
+        "y": 388535,
+        "f2015_sites": "Yes",
+        "f2018_sites": "Yes",
+        "f2021_sites": "Yes",
+        "GlobalID": "e5b46b3a-3280-4eed-a47f-f2a06016832d"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 338,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-5.7274419755887, 54.6648132572476]
+      },
+      "properties": {
+        "OBJECTID": 338,
+        "monitoring": "F10576",
+        "monitori_1": "CRAWFORDSBURN RIVER AT CRAWFORDSBURN COUNTRY PARK",
+        "river_wate": "GBNI1NE050502083",
+        "catchment": "N Down & Ards Peninsula",
+        "x": 346681,
+        "y": 382006,
+        "f2015_sites": "Yes",
+        "f2018_sites": "Yes",
+        "f2021_sites": "Yes",
+        "GlobalID": "587fab99-d3ba-4679-aec8-efa1d2ece00e"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 437,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-7.99848483733872, 54.3599365143703]
+      },
+      "properties": {
+        "OBJECTID": 437,
+        "monitoring": "F10899",
+        "monitori_1": "LATTONE TRIBUTARY AT LATTONE BRIDGE",
+        "river_wate": "GBNI1NW353504076",
+        "catchment": "County",
+        "x": 200147,
+        "y": 345694,
+        "f2015_sites": "Yes",
+        "f2018_sites": "Yes",
+        "f2021_sites": "Yes",
+        "GlobalID": "eea8df45-185a-4821-a13d-9fbcbe5c8da5"
+      }
+    }
+  ]
+}
