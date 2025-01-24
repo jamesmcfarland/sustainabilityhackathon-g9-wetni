@@ -1,101 +1,170 @@
+"use client";
+import MapComponent from "@/components/map";
 import Image from "next/image";
 
-export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+import qubLogo from "@/images/qub-white.png";
+import { MapPinIcon } from "lucide-react";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+import { Button } from "@/components/ui/button";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useMemo, useState } from "react";
+import { lakesV3Centeroids } from "@/data/lakesv3Centroids";
+import { findPointsNearPolygon, Polygon } from "@/utils/findPointsNearPoly";
+import { qualityLatestDedupe } from "@/data/quality-latest-deduped";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { lakesv3 } from "@/data/lakesv3";
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+const x = {
+  type: "Feature",
+  properties: {
+    OBJECTID: 324,
+    name: "Rowallane House Pond",
+    lake_code: "Lake_0315",
+    squ_metre: 1857.755,
+    area_ha: 0.186,
+    centre_x: 340648,
+    centre_y: 357664,
+    ehro_2007: 0,
+    county: "Down",
+    border_m: 212.75,
+    contour_m: 100,
+    name_12: "Quoile",
+    ms_cd: "GBNI1NE050504064\r\n",
+    town: "SAINTFIELD",
+    distance: 1443,
+    SHAPE__Length: null,
+    SHAPE__Area: null,
+    GlobalID: "b24e8e43-aa23-441e-a894-000c20c782d6",
+  },
+  geometry: {
+    type: "Point",
+    coordinates: [-5.832460340272608, 54.44802248194129],
+  },
+};
+
+export default function Home() {
+  // get the ID from the search params
+
+  const [selectedID, setselectedID] = useState<string | null>();
+
+  const selectedLakeCentroid = useMemo(
+    () =>
+      lakesV3Centeroids.find((lake) => lake.properties.GlobalID === selectedID),
+    [selectedID]
+  );
+  const selectedLakePolygon = useMemo(
+    () =>
+      lakesv3.features.find((lake) => lake.properties?.GlobalID === selectedID),
+    [selectedID]
+  );
+
+  const pointsNear = useMemo(
+    () =>
+      findPointsNearPolygon(
+        selectedLakePolygon as Polygon,
+        qualityLatestDedupe.features,
+        1000
+      ),
+    [selectedLakePolygon]
+  );
+
+  return (
+    <div className="h-screen w-screen m-0 p-0 flex flex-col">
+      <nav className="flex justify-between items-center p-4 backdrop-blur-md bg-white/30 fixed w-full z-50 text-white drop-shadow-lg">
+        <h1 className="text-3xl font-bold tracking-tight font-serif">wetni</h1>
+
+        <div className="flex items-center gap-2">
+          <Image src={qubLogo} alt="qub logo" height={50} />
+          <div className="flex flex-col">
+            <h1 className="text-lg font-bold">
+              2025 EEECS Sustainability Hackathon - Water
+            </h1>
+            <div className="text-md font-normal">Group 9</div>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </nav>
+      <div className="w-full h-full">
+        <MapComponent onMarkerClick={(id) => setselectedID(id)} />
+      </div>
+      <Drawer open={!!selectedID} onClose={() => setselectedID(null)}>
+        <DrawerContent>
+          <DrawerHeader>
+            <DrawerTitle>{selectedLakeCentroid?.properties.name}</DrawerTitle>
+            <DrawerDescription>
+              County {selectedLakeCentroid?.properties.county}
+            </DrawerDescription>
+            <DrawerDescription>
+              Size{" "}
+              {Math.round(
+                (selectedLakeCentroid?.properties.squ_metre ?? 0 / 1000000) *
+                  100
+              ) / 100}{" "}
+              km²
+            </DrawerDescription>
+
+            <Table>
+              <TableCaption>Nearby water quality monitors</TableCaption>
+              <TableHeader>
+                <TableRow>
+                  <TableCell>Site</TableCell>
+                  <TableCell>Date</TableCell>
+                  <TableCell>PH</TableCell>
+                  <TableCell>NO3</TableCell>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {pointsNear.map((feature, i) => (
+                  <TableRow key={`pN-${i}`}>
+                    <TableCell className="font-medium">
+                      {feature.properties.Station_Name.toLowerCase()
+                        .replace(/\b\w/g, (char) => char.toUpperCase())
+                        .replaceAll("At", "@")}
+                    </TableCell>
+                    <TableCell>
+                      {new Date(feature.properties.Date).toLocaleDateString(
+                        "en-GB"
+                      )}
+                    </TableCell>
+                    <TableCell>{feature.properties.PH}</TableCell>
+                    <TableCell>{feature.properties.NO3_N_MGL}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </DrawerHeader>
+          <DrawerFooter>
+            <Button>Submit</Button>
+            <DrawerClose asChild>
+              <Button variant="outline">Cancel</Button>
+            </DrawerClose>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
     </div>
   );
 }
