@@ -10,9 +10,11 @@ export function findOverlappingBufferedPoints(
     turf.buffer(point, bufferDistance, { units })
   );
 
-  return points.features.filter((point, i) =>
-    polygons.features.some((poly) =>
-      turf.booleanIntersects(bufferedPoints[i], poly)
-    )
+  return points.features.filter(
+    (point, i) =>
+      bufferedPoints[i] &&
+      polygons.features.some((poly) =>
+        turf.booleanIntersects(bufferedPoints[i]!, poly)
+      )
   );
 }
