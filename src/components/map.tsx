@@ -70,7 +70,10 @@ export default function MapComponent({
       ),
     []
   );
-
+  const mapStyles = {
+    opacity: mapReady ? 1 : 0,
+    transition: 'opacity 0.2s ease-in'
+  };
   return (
     <div className="w-full h-full">
       <Map
@@ -83,6 +86,7 @@ export default function MapComponent({
         }}
         mapStyle="mapbox://styles/mapbox/outdoors-v12"
         onLoad={() => setMapReady(true)}
+        style={mapStyles}
       >
         {mapReady && (
           <>
