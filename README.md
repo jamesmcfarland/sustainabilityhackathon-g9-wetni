@@ -4,6 +4,8 @@ This is a [Next.js](https://nextjs.org) project, using [shadcn/ui](https://ui.sh
 
 It is deployed live with Vercel at [this link](https://sustainabilityhackathon-g9-wetni.vercel.app).
 
+[The Bun Javascript Toolkit](https://bun.sh) was used for development
+
 ## Datasets Used
 
 | Name                                        | Link                                                                                              | Use                                                                                                                                                                                                                                                            |
